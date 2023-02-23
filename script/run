@@ -5,14 +5,31 @@ set -e
 PROJECT_ROOT="$(cd "$(dirname "$0")"; cd ..; pwd)"
 source ${PROJECT_ROOT}/config.sh
 
-docker run -it \
-  -p ${SERVER_PORT}:${SERVER_PORT} \
-  --name=${PROJECT_NAME} \
-  --volume ${PROJECT_ROOT}/catkin_ws:/catkin_ws \
-  --network=my_net \
-  --rm \
-  ${PROJECT_NAME}
+# docker run -it \
+#   -p ${SERVER_PORT}:${SERVER_PORT} \
+#   --name=${PROJECT_NAME} \
+#   --volume ${PROJECT_ROOT}/catkin_ws:/root/catkin_ws \
+#   --network=my_net \
+#   --rm \
+#   ${PROJECT_NAME}
 
+# docker run -it \
+#   -p ${SERVER_PORT}:${SERVER_PORT} \
+#   --name=${PROJECT_NAME} \
+#   --volume ${PROJECT_ROOT}/catkin_ws:/root/catkin_ws \
+#   --network=my_net \
+#   --rm \
+#   ${PROJECT_NAME}
 
 # -e "ROS_MASTER_URI=http://192.168.1.30:11311/" \
 # -e "ROS_HOSTNAME=adjrazer.local" \
+
+
+docker run -it  \
+  --name=${PROJECT_NAME} \
+  --network="host" \
+  -e DISPLAY=$DISPLAY \
+  --volume ${PROJECT_ROOT}/catkin_ws:/root/catkin_ws \
+  -e "ROS_MASTER_URI=http://192.168.1.30:11311/" \
+  --rm \
+  ${PROJECT_NAME}:latest
